@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django.http import HttpResponse
 
 
 def index(request):
@@ -11,4 +10,9 @@ def index(request):
 
 
 def about(request):
-    return HttpResponse('Информация о странице')
+    context = {
+        'title': 'Home - О Нас',
+        'content': 'О НАС',
+        'text_on_page': 'Some text'
+    }
+    return render(request, 'main/about.html', context)
