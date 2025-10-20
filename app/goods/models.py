@@ -15,7 +15,7 @@ class Categories(models.Model):
 
 
 class Products(models.Model):
-    name = models.CharField(max_length=24, unique=True, verbose_name='Название')
+    name = models.CharField(max_length=50, unique=True, verbose_name='Название')
     slug = models.SlugField(max_length=124, unique=True, blank=True, null=True, verbose_name='URL')
     description = models.TextField(blank=True, null=True, verbose_name='Описание')
     image = models.ImageField(upload_to='goods_images', blank=True, null=True, verbose_name='Изображение')
@@ -31,3 +31,13 @@ class Products(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def display_id(self):
+        return f"{self.pk:05}"
+
+    @property
+    def sell_price(self):
+        if self.discount:
+            return round(self.price - self.price * self.discount/100, 2)
+        return self.price
